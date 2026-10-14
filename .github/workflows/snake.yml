@@ -1,9 +1,9 @@
-name: Generate Snake Animation
+name: Gerar cobrinha
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # roda todo dia à meia-noite
-  workflow_dispatch:        # permite rodar manualmente
+    - cron: "0 3 * * *"   # todo dia, meia-noite no horário de Brasília
+  workflow_dispatch:       # permite rodar manualmente
   push:
     branches:
       - main
@@ -15,15 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Generate snake
+      - name: Gerar SVGs (claro e escuro)
         uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=00d9ff&color_dots=0d1117,0066ff,00b3ff,00d9ff,ffffff
+            dist/snake-dark.svg?palette=github-dark&color_snake=#B5BE78&color_dots=#161b22,#2A2E14,#454B21,#60682E,#8C9648
+            dist/snake-light.svg?palette=github-light&color_snake=#2A2E14&color_dots=#ebedf0,#D9DEB5,#A9B26B,#8C9648,#60682E
 
-      - name: Push to output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Publicar na branch output
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
